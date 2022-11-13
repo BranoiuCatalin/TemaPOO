@@ -13,6 +13,7 @@ public class Player {
     private HeroCard heroCard;
     private Integer backrowIndex;
     private Integer frontrowindex;
+    private Integer mana;
 
     public void getNextCard() {
         hand.add(deck.get(0));
@@ -26,5 +27,21 @@ public class Player {
         for(MinionCard minionCard : backRow) {
             minionCard.setFrozen(false);
         }
+    }
+
+    public HeroCard getHeroCard() {
+        return heroCard;
+    }
+
+    public void setHeroCard(HeroCard heroCard) {
+        this.heroCard = heroCard;
+    }
+
+    public Integer getMana() {
+        return mana;
+    }
+
+    public void setMana(Integer mana) {
+        this.mana = mana;
     }
 }
