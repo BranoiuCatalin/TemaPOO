@@ -1,6 +1,8 @@
 package main.minionCards;
 
-public class MinionCard {
+import main.Card;
+
+public class MinionCard extends Card {
     private Integer mana;
     private Integer health;
     private Integer attackDamage;
@@ -15,12 +17,9 @@ public class MinionCard {
     public MinionCard() {}
 
     public MinionCard(Integer mana, Integer health, Integer attackDamage, String description, String colors, String name, Boolean attacked, Boolean frozen, Boolean isTank, Boolean hasSpecialAbility) {
-        this.mana = mana;
+        super(mana, description, colors, name);
         this.health = health;
         this.attackDamage = attackDamage;
-        this.description = description;
-        this.colors = colors;
-        this.name = name;
         this.attacked = attacked;
         this.frozen = frozen;
         this.isTank = isTank;

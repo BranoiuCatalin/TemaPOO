@@ -1,20 +1,20 @@
-package main.environmentCards;
+package main;
 
-import main.Card;
-
-public class EnvironmentCard extends Card {
+public class Card {
     private Integer mana;
     private String description;
     private String colors;
     private String name;
 
-    public EnvironmentCard() {
+    public Card() {
     }
 
-    public EnvironmentCard(Integer mana, String description, String colors, String name) {
-        super(mana, description, colors, name);
+    public Card(Integer mana, String description, String colors, String name) {
+        this.mana = mana;
+        this.description = description;
+        this.colors = colors;
+        this.name = name;
     }
-
 
     public Integer getMana() {
         return mana;

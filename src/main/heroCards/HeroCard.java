@@ -1,18 +1,20 @@
-package main.environmentCards;
+package main.heroCards;
 
 import main.Card;
 
-public class EnvironmentCard extends Card {
+public class HeroCard extends Card {
     private Integer mana;
     private String description;
     private String colors;
     private String name;
+    private Integer health;
 
-    public EnvironmentCard() {
+    public HeroCard() {
     }
 
-    public EnvironmentCard(Integer mana, String description, String colors, String name) {
+    public HeroCard(Integer mana, String description, String colors, String name, Integer health) {
         super(mana, description, colors, name);
+        this.health = health;
     }
 
 
@@ -46,5 +48,13 @@ public class EnvironmentCard extends Card {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getHealth() {
+        return health;
+    }
+
+    public void setHealth(Integer health) {
+        this.health = health;
     }
 }
