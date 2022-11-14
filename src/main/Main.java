@@ -69,17 +69,15 @@ public final class Main {
 
         ArrayNode output = objectMapper.createArrayNode();
 
-        //System.out.println(inputData.getPlayerOneDecks());
-        System.out.println("Before in main");
-        System.out.println(inputData.getPlayerOneDecks().getDecks().get(0));
         //TODO add here the entry point to your implementation
 
         StartGames start = new StartGames();
-        start.startGame(inputData);
+        start.startGame(inputData, output);
 
-        System.out.println("After in main");
-        System.out.println(inputData.getPlayerOneDecks().getDecks().get(0));
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
+
+        //String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(output);
+        //System.out.println(json);
     }
 }

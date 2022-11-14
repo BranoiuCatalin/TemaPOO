@@ -1,16 +1,23 @@
 package main.minionCards;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import main.Card;
 
 import java.util.ArrayList;
 
 public class MinionCard extends Card {
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
 
     private Integer health;
     private Integer attackDamage;
+    @JsonIgnore
     private Boolean attacked;
+   @JsonIgnore
     private Boolean frozen;
-    private Boolean isTank;
+    @JsonIgnore
+    private Boolean tank;
+    @JsonIgnore
     private Boolean hasSpecialAbility;
 
     public MinionCard() {}
@@ -21,7 +28,7 @@ public class MinionCard extends Card {
         this.attackDamage = attackDamage;
         this.attacked = attacked;
         this.frozen = frozen;
-        this.isTank = isTank;
+        this.tank = isTank;
         this.hasSpecialAbility = hasSpecialAbility;
     }
 
@@ -42,11 +49,11 @@ public class MinionCard extends Card {
     }
 
     public Boolean getTank() {
-        return isTank;
+        return tank;
     }
 
     public void setTank(Boolean tank) {
-        isTank = tank;
+        tank = tank;
     }
 
     public Boolean getAttacked() {
@@ -88,7 +95,7 @@ public class MinionCard extends Card {
                 ", attackDamage=" + attackDamage +
                 ", attacked=" + attacked +
                 ", frozen=" + frozen +
-                ", isTank=" + isTank +
+                ", isTank=" + tank +
                 ", hasSpecialAbility=" + hasSpecialAbility +
                 "} " + super.toString();
     }
