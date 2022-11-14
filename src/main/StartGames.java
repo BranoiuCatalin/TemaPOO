@@ -39,7 +39,6 @@ public class StartGames {
         playerOne = new Player();
         playerTwo = new Player();
         for(GameInput game : input.getGames()) {
-
             playerOne.setDeck(new ArrayList<>());
             for(CardInput cardIn : input.getPlayerOneDecks().getDecks().get(game.getStartGame().getPlayerOneDeckIdx())) {
                 switch(cardIn.getName()) {
@@ -126,8 +125,14 @@ public class StartGames {
 
             }
 
+            //System.out.println(playerTwo.getDeck());
+
             Collections.shuffle(playerOne.getDeck(), new Random(game.getStartGame().getShuffleSeed()));
             Collections.shuffle(playerTwo.getDeck(), new Random(game.getStartGame().getShuffleSeed()));
+
+            //System.out.println(playerTwo.getDeck());
+
+
 
             playerOne.setHand(new ArrayList<>());
             playerTwo.setHand(new ArrayList<>());
@@ -145,18 +150,26 @@ public class StartGames {
             }
 
             CardInput playerTwoHero = game.getStartGame().getPlayerTwoHero();
-            switch (playerOneHero.getName()) {
+            switch (playerTwoHero.getName()) {
                 case "Empress Thorina" ->
-                        playerTwo.setHeroCard(new EmpressThorina(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        playerTwo.setHeroCard(new EmpressThorina(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "General Kocioraw" ->
-                        playerTwo.setHeroCard(new GeneralKocioraw(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        playerTwo.setHeroCard(new GeneralKocioraw(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "King Mudface" ->
-                        playerTwo.setHeroCard(new KingMudface(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        playerTwo.setHeroCard(new KingMudface(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "Lord Royce" ->
-                        playerTwo.setHeroCard(new LordRoyce(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        playerTwo.setHeroCard(new LordRoyce(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
             }
 
+            //System.out.println(playerTwoHero);
+            //System.out.println(playerTwo.getHeroCard());
+
             currentPlayer = game.getStartGame().getStartingPlayer();
+
+            playerOne.getHand().add(playerOne.getDeck().get(0));
+            playerOne.getDeck().remove(0);
+            playerTwo.getHand().add(playerTwo.getDeck().get(0));
+            playerTwo.getDeck().remove(0);
 
             doActions(game.getActions(), output);
         }
@@ -169,35 +182,75 @@ public class StartGames {
                 case "getPlayerDeck":
                     getPlayerDeck(action.getPlayerIdx(), output);
                     break;
+                case "getPlayerHero":
+                    getPlayerHero(action.getPlayerIdx(), output);
+                    break;
+                case "getPlayerTurn":
+                    getPlayerTurn(output);
+                    break;
             }
         }
     }
     public void getPlayerDeck(Integer playerId, ArrayNode output) {
         try {
-            // create `ObjectMapper` instance
             ObjectMapper mapper = new ObjectMapper();
-
             ArrayNode array = mapper.createArrayNode();
 
-
-            // create a JSON object
             ObjectNode outObject = mapper.createObjectNode();
             outObject.put("command", "getPlayerDeck");
             outObject.put("playerIdx", playerId);
-            JsonNode node = mapper.valueToTree(playerOne.getDeck());
+            JsonNode node = null;
+            //System.out.println(playerTwo.getDeck());
+
+
+            if(playerId == 1) {
+                node = mapper.valueToTree(playerOne.getDeck()); }
+            else if(playerId == 2) {
+                node = mapper.valueToTree(playerTwo.getDeck());
+            }
+
             outObject.put("output", node);
             output.add(outObject);
-            // convert `ObjectNode` to pretty-print JSON
-            // without pretty-print, use `user.toString()` method
-            //String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(outObject);
-
-
-            // print json
-            //System.out.println(json);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+    }
+
+    public void getPlayerHero(Integer playerId, ArrayNode output) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode array = mapper.createArrayNode();
+
+            ObjectNode outObject = mapper.createObjectNode();
+            outObject.put("command", "getPlayerHero");
+            outObject.put("playerIdx", playerId);
+            JsonNode node = null;
+            if(playerId == 1) {
+                node = mapper.valueToTree(playerOne.getHeroCard()); }
+            else if(playerId == 2) {
+                node = mapper.valueToTree(playerTwo.getHeroCard());
+            }
+            outObject.put("output", node);
+            output.add(outObject);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void getPlayerTurn(ArrayNode output) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode array = mapper.createArrayNode();
+
+            ObjectNode outObject = mapper.createObjectNode();
+            outObject.put("command", "getPlayerTurn");
+            outObject.put("output", currentPlayer);
+            output.add(outObject);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
