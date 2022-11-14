@@ -1,15 +1,18 @@
 package main;
 
+import java.util.ArrayList;
+
 public class Card {
     private Integer mana;
     private String description;
-    private String colors;
+    private ArrayList<String> colors;
     private String name;
 
     public Card() {
     }
 
-    public Card(Integer mana, String description, String colors, String name) {
+
+    public Card(Integer mana, String description, ArrayList<String> colors, String name) {
         this.mana = mana;
         this.description = description;
         this.colors = colors;
@@ -32,19 +35,29 @@ public class Card {
         this.description = description;
     }
 
-    public String getColors() {
-        return colors;
-    }
-
-    public void setColors(String colors) {
-        this.colors = colors;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ArrayList<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(ArrayList<String> colors) {
+        this.colors = colors;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "mana=" + mana +
+                ", description='" + description + '\'' +
+                ", colors=" + colors +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

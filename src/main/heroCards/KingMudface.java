@@ -5,7 +5,7 @@ import main.minionCards.MinionCard;
 import java.util.ArrayList;
 
 public class KingMudface extends HeroCard{
-    public KingMudface(Integer mana, String description, String colors, String name) {
+    public KingMudface(Integer mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name, 30);
     }
 

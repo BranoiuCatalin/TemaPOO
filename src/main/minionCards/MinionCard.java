@@ -2,13 +2,12 @@ package main.minionCards;
 
 import main.Card;
 
+import java.util.ArrayList;
+
 public class MinionCard extends Card {
-    private Integer mana;
+
     private Integer health;
     private Integer attackDamage;
-    private String description;
-    private String colors;
-    private String name;
     private Boolean attacked;
     private Boolean frozen;
     private Boolean isTank;
@@ -16,7 +15,7 @@ public class MinionCard extends Card {
 
     public MinionCard() {}
 
-    public MinionCard(Integer mana, Integer health, Integer attackDamage, String description, String colors, String name, Boolean attacked, Boolean frozen, Boolean isTank, Boolean hasSpecialAbility) {
+    public MinionCard(Integer mana, Integer health, Integer attackDamage, String description, ArrayList<String> colors, String name, Boolean attacked, Boolean frozen, Boolean isTank, Boolean hasSpecialAbility) {
         super(mana, description, colors, name);
         this.health = health;
         this.attackDamage = attackDamage;
@@ -66,14 +65,6 @@ public class MinionCard extends Card {
         this.frozen = frozen;
     }
 
-    public Integer getMana() {
-        return mana;
-    }
-
-    public void setMana(Integer mana) {
-        this.mana = mana;
-    }
-
     public Integer getHealth() {
         return health;
     }
@@ -90,27 +81,15 @@ public class MinionCard extends Card {
         this.attackDamage = attackDamage;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getColors() {
-        return colors;
-    }
-
-    public void setColors(String colors) {
-        this.colors = colors;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return "MinionCard{" +
+                "health=" + health +
+                ", attackDamage=" + attackDamage +
+                ", attacked=" + attacked +
+                ", frozen=" + frozen +
+                ", isTank=" + isTank +
+                ", hasSpecialAbility=" + hasSpecialAbility +
+                "} " + super.toString();
     }
 }
