@@ -7,16 +7,18 @@ public class Card {
     private String description;
     private ArrayList<String> colors;
     private String name;
+    private String cardPositioning;
 
     public Card() {
     }
 
 
-    public Card(Integer mana, String description, ArrayList<String> colors, String name) {
+    public Card(Integer mana, String description, ArrayList<String> colors, String name, String positioning) {
         this.mana = mana;
         this.description = description;
         this.colors = colors;
         this.name = name;
+        this.cardPositioning = positioning;
     }
 
     public Integer getMana() {

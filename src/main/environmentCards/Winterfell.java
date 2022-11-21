@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Winterfell extends EnvironmentCard{
     public Winterfell(Integer mana, String description, ArrayList<String> colors, String name) {
-        super(mana, description, colors, name);
+        super(mana, description, colors, name, "environment");
     }
 
     public void useCard(ArrayList<MinionCard> attackedRow) {

@@ -22,8 +22,8 @@ public class MinionCard extends Card {
 
     public MinionCard() {}
 
-    public MinionCard(Integer mana, Integer health, Integer attackDamage, String description, ArrayList<String> colors, String name, Boolean attacked, Boolean frozen, Boolean isTank, Boolean hasSpecialAbility) {
-        super(mana, description, colors, name);
+    public MinionCard(Integer mana, Integer health, Integer attackDamage, String description, ArrayList<String> colors, String name, Boolean attacked, Boolean frozen, Boolean isTank, Boolean hasSpecialAbility, String positioning) {
+        super(mana, description, colors, name, positioning);
         this.health = health;
         this.attackDamage = attackDamage;
         this.attacked = attacked;

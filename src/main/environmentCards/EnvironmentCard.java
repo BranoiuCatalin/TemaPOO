@@ -9,8 +9,8 @@ public class EnvironmentCard extends Card {
     public EnvironmentCard() {
     }
 
-    public EnvironmentCard(Integer mana, String description, ArrayList<String> colors, String name) {
-        super(mana, description, colors, name);
+    public EnvironmentCard(Integer mana, String description, ArrayList<String> colors, String name, String positioning) {
+        super(mana, description, colors, name, positioning);
     }
 
     @Override

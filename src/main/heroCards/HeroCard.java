@@ -12,7 +12,7 @@ public class HeroCard extends Card {
     }
 
     public HeroCard(Integer mana, String description, ArrayList<String> colors, String name, Integer health) {
-        super(mana, description, colors, name);
+        super(mana, description, colors, name, "hero");
         this.health = health;
     }
 

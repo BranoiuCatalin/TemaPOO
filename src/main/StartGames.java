@@ -14,6 +14,7 @@ import fileio.ActionsInput;
 import fileio.CardInput;
 import fileio.GameInput;
 import fileio.Input;
+import main.environmentCards.EnvironmentCard;
 import main.environmentCards.Firestorm;
 import main.environmentCards.HeartHound;
 import main.environmentCards.Winterfell;
@@ -34,6 +35,7 @@ public class StartGames {
     private static Player playerOne;
     private static Player playerTwo;
     private static Integer currentPlayer;
+    private static Integer nrPlayersEnded = 0;
 
     public void startGame (Input input, ArrayNode output) {
         playerOne = new Player();
@@ -188,7 +190,68 @@ public class StartGames {
                 case "getPlayerTurn":
                     getPlayerTurn(output);
                     break;
+                case "endPlayerTurn":
+                    endPlayerTurn(output);
+                    break;
+                case "placeCard":
+                    placeCard(action.getPlayerIdx(), output);
+                    break;
             }
+        }
+    }
+
+    public void placeCard(Integer handId, ArrayNode output) {
+        Card currentCard = null;
+        //Integer
+        if(currentPlayer == 1) {
+            currentCard = playerOne.getHand().get(handId);
+            if(currentCard instanceof EnvironmentCard) {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    ObjectNode outObject = mapper.createObjectNode();
+                    outObject.put("command", "placeCard");
+                    outObject.put("playerIdx", handId);
+                    outObject.put("error", "Cannot place environment card on table.");
+                    output.add(outObject);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                if(currentCard.getMana() > playerOne.getMana()) {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+
+                        ObjectNode outObject = mapper.createObjectNode();
+                        outObject.put("command", "placeCard");
+                        outObject.put("playerIdx", handId);
+                        outObject.put("error", "Not enough mana to place card on table.");
+                        output.add(outObject);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    //if(currentCard.)
+                }
+            }
+        } else {
+            currentCard = playerTwo.getHand().get(handId);
+        }
+
+
+    }
+    public void endPlayerTurn(ArrayNode output) {
+        if(currentPlayer == 1) {
+            currentPlayer = 2;
+        }
+        else {
+            currentPlayer = 1;
+        }
+        nrPlayersEnded++;
+        if(nrPlayersEnded == 2) {
+            nrPlayersEnded = 0;
         }
     }
     public void getPlayerDeck(Integer playerId, ArrayNode output) {
