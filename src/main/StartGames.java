@@ -25,10 +25,7 @@ import main.heroCards.LordRoyce;
 import main.minionCards.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class StartGames {
 
@@ -36,10 +33,16 @@ public class StartGames {
     private static Player playerTwo;
     private static Integer currentPlayer;
     private static Integer nrPlayersEnded = 0;
+    private static ArrayList<ArrayList<Card>> table;
 
     public void startGame (Input input, ArrayNode output) {
         playerOne = new Player();
         playerTwo = new Player();
+        table = new ArrayList<ArrayList<Card>>();
+        ArrayList<Card> emptyRow = new ArrayList<Card>();
+        for(int i =0; i<4; i++) {
+            table.set(i, emptyRow);
+        }
         for(GameInput game : input.getGames()) {
             playerOne.setDeck(new ArrayList<>());
             for(CardInput cardIn : input.getPlayerOneDecks().getDecks().get(game.getStartGame().getPlayerOneDeckIdx())) {
@@ -205,7 +208,7 @@ public class StartGames {
         //Integer
         if(currentPlayer == 1) {
             currentCard = playerOne.getHand().get(handId);
-            if(currentCard instanceof EnvironmentCard) {
+            if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
                     ObjectMapper mapper = new ObjectMapper();
 
@@ -233,11 +236,120 @@ public class StartGames {
                         ex.printStackTrace();
                     }
                 } else {
-                    //if(currentCard.)
+                    if(Objects.equals(currentCard.getCardPositioning(), "front")) {
+                        if(table.get(2).size() == 5) {
+                            try {
+                                ObjectMapper mapper = new ObjectMapper();
+
+                                ObjectNode outObject = mapper.createObjectNode();
+                                outObject.put("command", "placeCard");
+                                outObject.put("playerIdx", handId);
+                                outObject.put("error", "Cannot place card on table since row is full.");
+                                output.add(outObject);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        } else {
+                            table.get(2).add(currentCard);
+                            playerOne.setMana(playerOne.getMana() - currentCard.getMana());
+                            playerOne.getHand().remove(handId);
+                        }
+                    } else
+                    if(Objects.equals(currentCard.getCardPositioning(), "back")) {
+                        if(table.get(3).size() == 5) {
+                            try {
+                                ObjectMapper mapper = new ObjectMapper();
+
+                                ObjectNode outObject = mapper.createObjectNode();
+                                outObject.put("command", "placeCard");
+                                outObject.put("playerIdx", handId);
+                                outObject.put("error", "Cannot place card on table since row is full.");
+                                output.add(outObject);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }   else {
+                            table.get(3).add(currentCard);
+                            playerOne.setMana(playerOne.getMana() - currentCard.getMana());
+                            playerOne.getHand().remove(handId);
+                            }
+                    }
                 }
             }
         } else {
             currentCard = playerTwo.getHand().get(handId);
+            if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    ObjectNode outObject = mapper.createObjectNode();
+                    outObject.put("command", "placeCard");
+                    outObject.put("playerIdx", handId);
+                    outObject.put("error", "Cannot place environment card on table.");
+                    output.add(outObject);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                if(currentCard.getMana() > playerTwo.getMana()) {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+
+                        ObjectNode outObject = mapper.createObjectNode();
+                        outObject.put("command", "placeCard");
+                        outObject.put("playerIdx", handId);
+                        outObject.put("error", "Not enough mana to place card on table.");
+                        output.add(outObject);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    if(Objects.equals(currentCard.getCardPositioning(), "front")) {
+                        if(table.get(2).size() == 5) {
+                            try {
+                                ObjectMapper mapper = new ObjectMapper();
+
+                                ObjectNode outObject = mapper.createObjectNode();
+                                outObject.put("command", "placeCard");
+                                outObject.put("playerIdx", handId);
+                                outObject.put("error", "Cannot place card on table since row is full.");
+                                output.add(outObject);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        } else {
+                            table.get(2).add(currentCard);
+                            playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
+                            playerTwo.getHand().remove(handId);
+                        }
+                    } else
+                    if(Objects.equals(currentCard.getCardPositioning(), "back")) {
+                        if(table.get(3).size() == 5) {
+                            try {
+                                ObjectMapper mapper = new ObjectMapper();
+
+                                ObjectNode outObject = mapper.createObjectNode();
+                                outObject.put("command", "placeCard");
+                                outObject.put("playerIdx", handId);
+                                outObject.put("error", "Cannot place card on table since row is full.");
+                                output.add(outObject);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }   else {
+                            table.get(3).add(currentCard);
+                            playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
+                            playerTwo.getHand().remove(handId);
+                        }
+                    }
+                }
+            }
         }
 
 

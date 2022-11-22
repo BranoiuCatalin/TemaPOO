@@ -53,6 +53,14 @@ public class Card {
         this.colors = colors;
     }
 
+    public String getCardPositioning() {
+        return cardPositioning;
+    }
+
+    public void setCardPositioning(String cardPositioning) {
+        this.cardPositioning = cardPositioning;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
