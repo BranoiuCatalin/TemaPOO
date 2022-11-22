@@ -1,4 +1,27 @@
 [ {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
   "command" : "getPlayerTurn",
   "output" : 1
+}, {
+  "command" : "getCardsOnTable",
+  "output" : [ ]
 } ]

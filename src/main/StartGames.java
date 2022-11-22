@@ -41,7 +41,7 @@ public class StartGames {
         table = new ArrayList<ArrayList<Card>>();
         ArrayList<Card> emptyRow = new ArrayList<Card>();
         for(int i =0; i<4; i++) {
-            table.set(i, emptyRow);
+            table.add(emptyRow);
         }
         for(GameInput game : input.getGames()) {
             playerOne.setDeck(new ArrayList<>());
@@ -199,10 +199,34 @@ public class StartGames {
                 case "placeCard":
                     placeCard(action.getPlayerIdx(), output);
                     break;
+                case "getCardsOnTable":
+                    getCardsOnTable(output);
+                    break;
             }
         }
     }
+    public void getCardsOnTable(ArrayNode output) {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = mapper.createArrayNode();
+        ArrayList<Card> cardsOnTable = new ArrayList<Card>();
+        for(int i=0; i<4; i++) {
+            for(Card card : table.get(i)) {
+                cardsOnTable.add(card);
+            }
+        }
+        try {
+        ObjectNode outObject = mapper.createObjectNode();
+        outObject.put("command", "getCardsOnTable");
+        JsonNode node = null;
+        node = mapper.valueToTree(cardsOnTable);
+        outObject.put("output", node);
+        output.add(outObject);
+        }
+        catch (Exception ex) {
+        ex.printStackTrace();
+    }
 
+}
     public void placeCard(Integer handId, ArrayNode output) {
         Card currentCard = null;
         //Integer

@@ -1,4 +1,31 @@
 [ {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Cannot place environment card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
   "command" : "getPlayerTurn",
   "output" : 2
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Not enough mana to place card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Cannot place environment card on table."
+}, {
+  "command" : "placeCard",
+  "playerIdx" : 0,
+  "error" : "Cannot place environment card on table."
+}, {
+  "command" : "getCardsOnTable",
+  "output" : [ ]
 } ]

@@ -13,7 +13,7 @@ public class Player {
     private HeroCard heroCard;
     private Integer backrowIndex;
     private Integer frontrowindex;
-    private Integer mana;
+    private Integer mana = 0;
 
     public void getNextCard() {
         hand.add(deck.get(0));
