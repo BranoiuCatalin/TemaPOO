@@ -17,14 +17,10 @@
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
-  "output" : 104
+  "output" : 19
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, {
-  "command" : "placeCard",
-  "playerIdx" : 0,
-  "error" : "Cannot place environment card on table."
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
@@ -54,13 +50,6 @@
     "colors" : [ "White", "Grey", "Black" ],
     "name" : "Winterfell"
   }, {
-    "mana" : 2,
-    "description" : "Premium card: Insanity is always an option, now it is an absolute.",
-    "colors" : [ "Yellow", "Orange", "Red" ],
-    "name" : "Miraj",
-    "health" : 3,
-    "attackDamage" : 6
-  }, {
     "mana" : 1,
     "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
     "colors" : [ "Black", "White", "Red" ],
@@ -71,14 +60,10 @@
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
-  "output" : 158
+  "output" : 27
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, {
-  "command" : "placeCard",
-  "playerIdx" : 0,
-  "error" : "Cannot place environment card on table."
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
@@ -102,48 +87,14 @@
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
-  "output" : 158
+  "output" : 26
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
-  "output" : 160
+  "output" : 28
 }, {
   "command" : "getCardsOnTable",
-  "output" : [ {
-    "mana" : 2,
-    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
-    "colors" : [ "Black", "Grey", "Blue" ],
-    "name" : "Sentinel",
-    "health" : 3,
-    "attackDamage" : 6
-  } ]
-}, {
-  "command" : "getCardsInHand",
-  "playerIdx" : 1,
-  "output" : [ {
-    "mana" : 1,
-    "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
-    "colors" : [ "White", "Grey", "Black" ],
-    "name" : "Winterfell"
-  }, {
-    "mana" : 2,
-    "description" : "Premium card: Insanity is always an option, now it is an absolute.",
-    "colors" : [ "Yellow", "Orange", "Red" ],
-    "name" : "Miraj",
-    "health" : 3,
-    "attackDamage" : 6
-  }, {
-    "mana" : 1,
-    "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
-    "colors" : [ "Black", "White", "Red" ],
-    "name" : "The Cursed One",
-    "health" : 1,
-    "attackDamage" : 0
-  } ]
-}, {
-  "command" : "getCardsInHand",
-  "playerIdx" : 2,
-  "output" : [ {
+  "output" : [ [ {
     "mana" : 1,
     "description" : "Standard card: Everything is sacred to him, all is but a gift from the saints.",
     "colors" : [ "Yellow", "White" ],
@@ -152,19 +103,53 @@
     "attackDamage" : 0
   }, {
     "mana" : 1,
-    "description" : "Standard card: Death incarnate. No better time to die than now.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper",
-    "health" : 4,
-    "attackDamage" : 5
-  }, {
-    "mana" : 1,
     "description" : "Premium card: Nobody suspects an outcast, not even the Gods.",
     "colors" : [ "Black", "White", "Red" ],
     "name" : "The Cursed One",
     "health" : 1,
     "attackDamage" : 0
+  } ], [ {
+    "mana" : 1,
+    "description" : "Standard card: Death incarnate. No better time to die than now.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper",
+    "health" : 4,
+    "attackDamage" : 5
+  } ], [ {
+    "mana" : 2,
+    "description" : "Premium card: Insanity is always an option, now it is an absolute.",
+    "colors" : [ "Yellow", "Orange", "Red" ],
+    "name" : "Miraj",
+    "health" : 3,
+    "attackDamage" : 6
+  } ], [ {
+    "mana" : 2,
+    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
+    "colors" : [ "Black", "Grey", "Blue" ],
+    "name" : "Sentinel",
+    "health" : 3,
+    "attackDamage" : 6
   }, {
+    "mana" : 1,
+    "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
+    "colors" : [ "Black", "White", "Red" ],
+    "name" : "The Cursed One",
+    "health" : 1,
+    "attackDamage" : 0
+  } ] ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 1,
+  "output" : [ {
+    "mana" : 1,
+    "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
+    "colors" : [ "White", "Grey", "Black" ],
+    "name" : "Winterfell"
+  } ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
     "mana" : 2,
     "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
     "colors" : [ "Black", "White" ],

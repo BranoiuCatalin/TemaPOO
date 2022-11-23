@@ -2,13 +2,6 @@
   "command" : "getCardsInHand",
   "playerIdx" : 2,
   "output" : [ {
-    "mana" : 3,
-    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper",
-    "health" : 3,
-    "attackDamage" : 6
-  }, {
     "mana" : 1,
     "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
     "colors" : [ "White", "Blue" ],
@@ -50,27 +43,17 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
+  "command" : "placeCard",
+  "handIdx" : 0,
+  "error" : "Cannot place environment card on table."
+}, {
   "command" : "getCardsInHand",
   "playerIdx" : 2,
   "output" : [ {
-    "mana" : 3,
-    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper",
-    "health" : 3,
-    "attackDamage" : 6
-  }, {
     "mana" : 1,
     "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
     "colors" : [ "White", "Blue" ],
     "name" : "Winterfell"
-  }, {
-    "mana" : 5,
-    "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
-    "colors" : [ "Yellow", "Orange", "Red" ],
-    "name" : "Miraj",
-    "health" : 3,
-    "attackDamage" : 4
   }, {
     "mana" : 4,
     "description" : "Standard card: Death incarnate. No better time to die than now.",
@@ -90,45 +73,6 @@
   "command" : "getCardsInHand",
   "playerIdx" : 1,
   "output" : [ {
-    "mana" : 3,
-    "description" : "Standard card: Death incarnate. No better time to die than now.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper",
-    "health" : 3,
-    "attackDamage" : 6
-  } ]
-}, {
-  "command" : "getPlayerTurn",
-  "output" : 2
-}, {
-  "command" : "placeCard",
-  "playerIdx" : 0,
-  "error" : "Cannot place card on table since row is full."
-}, {
-  "command" : "placeCard",
-  "playerIdx" : 0,
-  "error" : "Cannot place card on table since row is full."
-}, {
-  "command" : "getPlayerMana",
-  "playerIdx" : 2,
-  "output" : 100
-}, {
-  "command" : "getPlayerMana",
-  "playerIdx" : 1,
-  "output" : 84
-}, {
-  "command" : "getPlayerTurn",
-  "output" : 2
-}, {
-  "command" : "getCardsOnTable",
-  "output" : [ {
-    "mana" : 4,
-    "description" : "Premium card: No matter how many, his body will fight. Save your breath for the Mountain is strong.",
-    "colors" : [ "Red", "Purple" ],
-    "name" : "Goliath",
-    "health" : 7,
-    "attackDamage" : 2
-  }, {
     "mana" : 4,
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
     "colors" : [ "Red", "Black" ],
@@ -137,20 +81,6 @@
     "attackDamage" : 4
   }, {
     "mana" : 3,
-    "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
-    "colors" : [ "Black", "White", "Green" ],
-    "name" : "Warden",
-    "health" : 5,
-    "attackDamage" : 2
-  }, {
-    "mana" : 2,
-    "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
-    "colors" : [ "Brown", "Blue" ],
-    "name" : "Warden",
-    "health" : 6,
-    "attackDamage" : 3
-  }, {
-    "mana" : 3,
     "description" : "Standard card: Death incarnate. No better time to die than now.",
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
@@ -158,20 +88,36 @@
     "attackDamage" : 6
   } ]
 }, {
-  "command" : "getCardsInHand",
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "placeCard",
+  "handIdx" : 0,
+  "error" : "Cannot place environment card on table."
+}, {
+  "command" : "placeCard",
+  "handIdx" : 0,
+  "error" : "Cannot place card on table since row is full."
+}, {
+  "command" : "getPlayerMana",
   "playerIdx" : 2,
-  "output" : [ {
+  "output" : 37
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 39
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "getCardsOnTable",
+  "output" : [ [ ], [ {
     "mana" : 3,
     "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "health" : 3,
     "attackDamage" : 6
-  }, {
-    "mana" : 1,
-    "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
-    "colors" : [ "White", "Blue" ],
-    "name" : "Winterfell"
   }, {
     "mana" : 5,
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
@@ -200,6 +146,50 @@
     "name" : "The Ripper",
     "health" : 3,
     "attackDamage" : 5
+  } ], [ {
+    "mana" : 3,
+    "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
+    "colors" : [ "Black", "White", "Green" ],
+    "name" : "Warden",
+    "health" : 5,
+    "attackDamage" : 2
+  }, {
+    "mana" : 4,
+    "description" : "Premium card: No matter how many, his body will fight. Save your breath for the Mountain is strong.",
+    "colors" : [ "Red", "Purple" ],
+    "name" : "Goliath",
+    "health" : 7,
+    "attackDamage" : 2
+  }, {
+    "mana" : 2,
+    "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
+    "colors" : [ "Brown", "Blue" ],
+    "name" : "Warden",
+    "health" : 6,
+    "attackDamage" : 3
+  }, {
+    "mana" : 4,
+    "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
+    "colors" : [ "Red", "Black" ],
+    "name" : "Miraj",
+    "health" : 4,
+    "attackDamage" : 4
+  }, {
+    "mana" : 3,
+    "description" : "Standard card: Death incarnate. No better time to die than now.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper",
+    "health" : 3,
+    "attackDamage" : 6
+  } ], [ ] ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
+    "mana" : 1,
+    "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
+    "colors" : [ "White", "Blue" ],
+    "name" : "Winterfell"
   }, {
     "mana" : 3,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
