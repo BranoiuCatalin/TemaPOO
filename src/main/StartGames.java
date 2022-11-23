@@ -229,6 +229,12 @@ public class StartGames {
                 case "cardUsesAttack":
                     cardUsesAttack(action.getCardAttacker(), action.getCardAttacked(), output);
                     break;
+                case "cardUsesAbility":
+                    cardUsesAbility(action.getCardAttacker(), action.getCardAttacked(), output);
+                    break;
+                case "useAttackHero":
+                    //useAttackHero(action.getCardAttacker(), output);
+                    break;
 
             }
 
@@ -239,6 +245,133 @@ public class StartGames {
                     }
                 }
             }
+            if(table.get(3).size() > 0)
+            System.out.println("aa" + table.get(3).get(0).getAttacked());
+        }
+    }
+
+
+    public void cardUsesAbility(Coordinates attacker, Coordinates attacked, ArrayNode output) {
+        if(table.get(attacker.getX()).size() <= attacker.getY() || table.get(attacked.getX()).size() <= attacked.getY()) {
+            return;
+        }
+        MinionCard atkrCard = table.get(attacker.getX()).get(attacker.getY());
+        MinionCard atkdCard = table.get(attacked.getX()).get(attacked.getY());
+        System.out.println(attacker);
+        System.out.println(atkrCard.getAttacked());
+        if (atkrCard.getFrozen()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAbility");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacker card is frozen.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (atkrCard.getAttacked()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAbility");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacker card has already attacked this turn.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (atkrCard instanceof Disciple) {
+            if((currentPlayer == 1 && attacked.getX()<2) || (currentPlayer == 2 && attacked.getX()>1)) {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+
+
+                    ObjectNode outObject = mapper.createObjectNode();
+                    outObject.put("command", "cardUsesAbility");
+                    JsonNode node = null;
+                    //System.out.println(players[1].getDeck());
+
+                    node = mapper.valueToTree(attacker);
+                    outObject.put("cardAttacker", node);
+                    node = mapper.valueToTree(attacked);
+                    outObject.put("cardAttacked", node);
+                    outObject.put("error", "Attacked card does not belong to the current player.");
+                    output.add(outObject);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                atkrCard.useSpecialAbility(atkdCard);
+                atkrCard.setAttacked(true);
+            }
+        }
+        else if((currentPlayer == 1 && attacked.getX()>1) || (currentPlayer == 2 && attacked.getX()<2)) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAbility");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacked card does not belong to the enemy.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (!atkdCard.getTank() && Stream.of(table.get(attacked.getX()), table.get(attacked.getX() ^ 1)).flatMap(List::stream).anyMatch(card -> card.getTank())){
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAbility");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacked card is not of type 'Tank'.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else {
+            atkrCard.useSpecialAbility(atkdCard);
+            atkrCard.setAttacked(true);
         }
     }
     public void cardUsesAttack(Coordinates attacker, Coordinates attacked, ArrayNode output) {
@@ -536,14 +669,14 @@ public class StartGames {
     }
 
     public void placeCard(Integer handId, ArrayNode output) {
-        System.out.println("PLAYER:" + currentPlayer + "MANA BEFORE:" + players[currentPlayer - 1].getMana());
+        //System.out.println("PLAYER:" + currentPlayer + "MANA BEFORE:" + players[currentPlayer - 1].getMana());
         //printTable();
         Card currentCard = null;
         //Integer
 
         if (players[currentPlayer - 1].getHand().size() > handId) {
-            System.out.println(players[currentPlayer - 1].getHand());
-            System.out.println("HAND ID" + handId);
+            //System.out.println(players[currentPlayer - 1].getHand());
+           // System.out.println("HAND ID" + handId);
             currentCard = players[currentPlayer - 1].getHand().get((int) handId);
             if (Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
@@ -571,7 +704,7 @@ public class StartGames {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                System.out.println("aaaaa");
+                //.println("aaaaa");
             } else if (Objects.equals(currentCard.getCardPositioning(), "front")) {
                 if (table.get(3 - currentPlayer).size() == 5) {
                     try {
@@ -613,17 +746,18 @@ public class StartGames {
             }
         }
 
-        System.out.println("MANA AFTER:" + players[currentPlayer - 1].getMana());
-        System.out.println(currentCard);
+        //.println("MANA AFTER:" + players[currentPlayer - 1].getMana());
+        //.println(currentCard);
     }
 
     public void endPlayerTurn(ArrayNode output) {
-        for(int i=0; i<1; i++) {
+        for(int i=0; i<2; i++) {
             for(MinionCard card : table.get((4-2*currentPlayer) + i)) {
                 card.setFrozen(false);
                 card.setAttacked(false);
             }
         }
+        System.out.println("reset for player" + currentPlayer);
 
         if (currentPlayer == 1) {
             currentPlayer = 2;
@@ -645,8 +779,8 @@ public class StartGames {
                 players[1].getHand().add(players[1].getDeck().get(0));
                 players[1].getDeck().remove(0);
             }
-            System.out.println(players[0].getMana());
-            System.out.println(players[1].getMana());
+            //.println(players[0].getMana());
+            //.println(players[1].getMana());
         }
 
 

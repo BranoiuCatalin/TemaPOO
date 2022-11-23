@@ -40,7 +40,7 @@ public class MinionCard extends Card {
         this.hasSpecialAbility = hasSpecialAbility;
     }
 
-    public void useSpecialAbility() {
+    public void useSpecialAbility(MinionCard attackedCard) {
 
     }
 

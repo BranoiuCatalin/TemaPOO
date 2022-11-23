@@ -99,7 +99,7 @@
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj",
-    "health" : 3,
+    "health" : 4,
     "attackDamage" : 5
   }, {
     "mana" : 2,
@@ -120,7 +120,7 @@
     "description" : "Premium card: Insanity is always an option, now it is an absolute.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj",
-    "health" : 4,
+    "health" : 3,
     "attackDamage" : 6
   } ], [ {
     "mana" : 2,
@@ -179,6 +179,17 @@
   "command" : "getPlayerMana",
   "playerIdx" : 2,
   "output" : 7
+}, {
+  "command" : "cardUsesAbility",
+  "cardAttacker" : {
+    "x" : 0,
+    "y" : 0
+  },
+  "cardAttacked" : {
+    "x" : 2,
+    "y" : 0
+  },
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "getEnvironmentCardsInHand",
   "playerIdx" : 2,
@@ -280,7 +291,7 @@
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj",
-    "health" : 3,
+    "health" : 4,
     "attackDamage" : 5
   }, {
     "mana" : 2,
@@ -301,7 +312,7 @@
     "description" : "Premium card: Insanity is always an option, now it is an absolute.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj",
-    "health" : 4,
+    "health" : 3,
     "attackDamage" : 6
   }, {
     "mana" : 2,

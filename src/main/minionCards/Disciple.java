@@ -7,7 +7,8 @@ public class Disciple extends MinionCard{
         super(mana, health, 0, description, colors, name, false, false, false, true, "back");
     }
 
-    public void specialAbility(MinionCard alliedMinion) {
+    public void useSpecialAbility(MinionCard alliedMinion) {
+
         alliedMinion.setHealth(alliedMinion.getHealth() + 2);
     }
 

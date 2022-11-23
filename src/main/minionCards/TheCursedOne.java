@@ -7,7 +7,7 @@ public class TheCursedOne extends MinionCard{
         super(mana, health, 0, description, colors, name, false, false, false, true, "back");
     }
 
-    public void specialAbility(MinionCard enemyMinion) {
+    public void useSpecialAbility(MinionCard enemyMinion) {
         int aux;
         aux = enemyMinion.getHealth();
         enemyMinion.setHealth(enemyMinion.getAttackDamage());

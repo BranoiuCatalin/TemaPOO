@@ -7,7 +7,7 @@ public class Miraj extends MinionCard{
         super(mana, health, attackDamage, description, colors, name, false, false, false, true, "front");
     }
 
-    public void specialAbility(MinionCard enemyMinion) {
+    public void useSpecialAbility(MinionCard enemyMinion) {
         int aux;
         aux = enemyMinion.getHealth();
         enemyMinion.setHealth(this.getHealth());
