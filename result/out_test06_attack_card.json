@@ -19,18 +19,18 @@
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
-  "output" : 19
+  "output" : 4
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
-  "output" : 19
+  "output" : 4
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
-  "output" : 15
+  "output" : 0
 }, {
   "command" : "getPlayerTurn",
   "output" : 2

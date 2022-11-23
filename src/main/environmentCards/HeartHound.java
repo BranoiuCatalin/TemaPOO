@@ -9,8 +9,19 @@ public class HeartHound extends EnvironmentCard{
         super(mana, description, colors, name, "environment");
     }
 
-    public void useCard(ArrayList<MinionCard> attackedRow) {
+    public void useCard(ArrayList<ArrayList<MinionCard>> table, int affectedRow) {
         //TODO Implement use method
+        if(table.get(affectedRow).size() == 0) {
+            return;
+        }
+        int idx=0;
+        for(int i = 1; i<table.get(affectedRow).size(); i++) {
+            if(table.get(affectedRow).get(idx).getHealth() < table.get(affectedRow).get(i).getHealth()) {
+                idx = i;
+            }
+        }
+        table.get(3-affectedRow).add(table.get(affectedRow).get(idx));
+        table.get(affectedRow).remove(idx);
     }
 
     @Override
