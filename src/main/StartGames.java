@@ -30,9 +30,6 @@ import java.util.*;
 import static java.lang.Math.max;
 
 public class StartGames {
-
-    private static Player playerOne;
-    private static Player playerTwo;
     private static Player[] players = new Player[2];
     private static Integer currentPlayer;
     private static Integer nrPlayersEnded = 0;
@@ -40,50 +37,50 @@ public class StartGames {
     private static ArrayList<ArrayList<Card>> table;
 
     public void startGame (Input input, ArrayNode output) {
-        playerOne = new Player();
-        playerTwo = new Player();
+        players[0] = new Player();
+        players[1] = new Player();
         table = new ArrayList<ArrayList<Card>>();
         ArrayList<Card> emptyRow = new ArrayList<Card>();
         for(int i =0; i<4; i++) {
             table.add(new ArrayList<Card>());
         }
         for(GameInput game : input.getGames()) {
-            playerOne.setDeck(new ArrayList<>());
+            players[0].setDeck(new ArrayList<>());
             for(CardInput cardIn : input.getPlayerOneDecks().getDecks().get(game.getStartGame().getPlayerOneDeckIdx())) {
                 switch(cardIn.getName()) {
                     case "Disciple":
-                        playerOne.getDeck().add(new Disciple(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Disciple(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Goliath":
-                        playerOne.getDeck().add(new Goliath(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Goliath(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Sentinel":
-                        playerOne.getDeck().add(new Sentinel(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Sentinel(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Berserker":
-                        playerOne.getDeck().add(new Berserker(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Berserker(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "The Cursed One":
-                        playerOne.getDeck().add(new TheCursedOne(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new TheCursedOne(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Miraj":
-                        playerOne.getDeck().add(new Miraj(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Miraj(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Warden":
-                        playerOne.getDeck().add(new Warden(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Warden(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "The Ripper":
-                        playerOne.getDeck().add(new TheRipper(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new TheRipper(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
 
                     case "Winterfell":
-                        playerOne.getDeck().add(new Winterfell(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Winterfell(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Heart Hound":
-                        playerOne.getDeck().add(new HeartHound(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new HeartHound(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Firestorm":
-                        playerOne.getDeck().add(new Firestorm(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[0].getDeck().add(new Firestorm(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     default:
                         System.out.println("Carte nerecunoscuta!");
@@ -91,42 +88,42 @@ public class StartGames {
 
             }
 
-            playerTwo.setDeck(new ArrayList<>());
+            players[1].setDeck(new ArrayList<>());
             for(CardInput cardIn : input.getPlayerTwoDecks().getDecks().get(game.getStartGame().getPlayerTwoDeckIdx())) {
                 switch(cardIn.getName()) {
                     case "Disciple":
-                        playerTwo.getDeck().add(new Disciple(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Disciple(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Goliath":
-                        playerTwo.getDeck().add(new Goliath(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Goliath(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Sentinel":
-                        playerTwo.getDeck().add(new Sentinel(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Sentinel(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Berserker":
-                        playerTwo.getDeck().add(new Berserker(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Berserker(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "The Cursed One":
-                        playerTwo.getDeck().add(new TheCursedOne(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new TheCursedOne(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Miraj":
-                        playerTwo.getDeck().add(new Miraj(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Miraj(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Warden":
-                        playerTwo.getDeck().add(new Warden(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Warden(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "The Ripper":
-                        playerTwo.getDeck().add(new TheRipper(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new TheRipper(cardIn.getMana(), cardIn.getHealth(), cardIn.getAttackDamage(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
 
                     case "Winterfell":
-                        playerTwo.getDeck().add(new Winterfell(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Winterfell(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Heart Hound":
-                        playerTwo.getDeck().add(new HeartHound(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new HeartHound(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     case "Firestorm":
-                        playerTwo.getDeck().add(new Firestorm(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
+                        players[1].getDeck().add(new Firestorm(cardIn.getMana(), cardIn.getDescription(), cardIn.getColors(), cardIn.getName()));
                         break;
                     default:
                         System.out.println("Carte nerecunoscuta!");
@@ -134,51 +131,51 @@ public class StartGames {
 
             }
 
-            //System.out.println(playerTwo.getDeck());
+            //System.out.println(players[1].getDeck());
 
-            Collections.shuffle(playerOne.getDeck(), new Random(game.getStartGame().getShuffleSeed()));
-            Collections.shuffle(playerTwo.getDeck(), new Random(game.getStartGame().getShuffleSeed()));
+            Collections.shuffle(players[0].getDeck(), new Random(game.getStartGame().getShuffleSeed()));
+            Collections.shuffle(players[1].getDeck(), new Random(game.getStartGame().getShuffleSeed()));
 
-            //System.out.println(playerTwo.getDeck());
+            //System.out.println(players[1].getDeck());
 
 
 
-            playerOne.setHand(new ArrayList<>());
-            playerTwo.setHand(new ArrayList<>());
+            players[0].setHand(new ArrayList<>());
+            players[1].setHand(new ArrayList<>());
 
             CardInput playerOneHero = game.getStartGame().getPlayerOneHero();
             switch (playerOneHero.getName()) {
                 case "Empress Thorina" ->
-                        playerOne.setHeroCard(new EmpressThorina(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        players[0].setHeroCard(new EmpressThorina(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
                 case "General Kocioraw" ->
-                        playerOne.setHeroCard(new GeneralKocioraw(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        players[0].setHeroCard(new GeneralKocioraw(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
                 case "King Mudface" ->
-                        playerOne.setHeroCard(new KingMudface(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        players[0].setHeroCard(new KingMudface(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
                 case "Lord Royce" ->
-                        playerOne.setHeroCard(new LordRoyce(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
+                        players[0].setHeroCard(new LordRoyce(playerOneHero.getMana(), playerOneHero.getDescription(), playerOneHero.getColors(), playerOneHero.getName()));
             }
 
             CardInput playerTwoHero = game.getStartGame().getPlayerTwoHero();
             switch (playerTwoHero.getName()) {
                 case "Empress Thorina" ->
-                        playerTwo.setHeroCard(new EmpressThorina(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
+                        players[1].setHeroCard(new EmpressThorina(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "General Kocioraw" ->
-                        playerTwo.setHeroCard(new GeneralKocioraw(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
+                        players[1].setHeroCard(new GeneralKocioraw(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "King Mudface" ->
-                        playerTwo.setHeroCard(new KingMudface(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
+                        players[1].setHeroCard(new KingMudface(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
                 case "Lord Royce" ->
-                        playerTwo.setHeroCard(new LordRoyce(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
+                        players[1].setHeroCard(new LordRoyce(playerTwoHero.getMana(), playerTwoHero.getDescription(), playerTwoHero.getColors(), playerTwoHero.getName()));
             }
 
             //System.out.println(playerTwoHero);
-            //System.out.println(playerTwo.getHeroCard());
+            //System.out.println(players[1].getHeroCard());
 
             currentPlayer = game.getStartGame().getStartingPlayer();
 
-            playerOne.getHand().add(playerOne.getDeck().get(0));
-            playerOne.getDeck().remove(0);
-            playerTwo.getHand().add(playerTwo.getDeck().get(0));
-            playerTwo.getDeck().remove(0);
+            players[0].getHand().add(players[0].getDeck().get(0));
+            players[0].getDeck().remove(0);
+            players[1].getHand().add(players[1].getDeck().get(0));
+            players[1].getDeck().remove(0);
 
 //            getPlayerDeck(1, output);
 //            getPlayerDeck(2, output);
@@ -232,9 +229,9 @@ public class StartGames {
             outObject.put("command", "getPlayerMana");
             outObject.put("playerIdx", playerId);
             if(playerId == 1) {
-                outObject.put("output", playerOne.getMana());
+                outObject.put("output", players[0].getMana());
             } else {
-                outObject.put("output", playerTwo.getMana());
+                outObject.put("output", players[1].getMana());
             }
             output.add(outObject);
         } catch (Exception ex) {
@@ -250,13 +247,13 @@ public class StartGames {
             outObject.put("command", "getCardsInHand");
             outObject.put("playerIdx", playerId);
             JsonNode node = null;
-            //System.out.println(playerTwo.getDeck());
+            //System.out.println(players[1].getDeck());
 
 
             if(playerId == 1) {
-                node = mapper.valueToTree(playerOne.getHand()); }
+                node = mapper.valueToTree(players[0].getHand()); }
             else if(playerId == 2) {
-                node = mapper.valueToTree(playerTwo.getHand());
+                node = mapper.valueToTree(players[1].getHand());
             }
 
             outObject.put("output", node);
@@ -304,9 +301,9 @@ public void printTable()
 
 
         if(currentPlayer == 1) {
-            if(playerOne.getHand().size() != 0) {
+            if(players[0].getHand().size() != 0) {
 
-            currentCard = playerOne.getHand().get((int)handId);
+            currentCard = players[0].getHand().get((int)handId);
             if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
                     ObjectMapper mapper = new ObjectMapper();
@@ -321,7 +318,7 @@ public void printTable()
                     ex.printStackTrace();
                 }
             } else {
-                if(currentCard.getMana() > playerOne.getMana()) {
+                if(currentCard.getMana() > players[0].getMana()) {
                     try {
                         ObjectMapper mapper = new ObjectMapper();
 
@@ -351,8 +348,8 @@ public void printTable()
                             }
                         } else {
                             table.get(2).add(currentCard);
-                            playerOne.setMana(playerOne.getMana() - currentCard.getMana());
-                            playerOne.getHand().remove((int)handId);
+                            players[0].setMana(players[0].getMana() - currentCard.getMana());
+                            players[0].getHand().remove((int)handId);
                         }
                     } else
                     if(Objects.equals(currentCard.getCardPositioning(), "back")) {
@@ -371,16 +368,16 @@ public void printTable()
                             }
                         }   else {
                             table.get(3).add(currentCard);
-                            playerOne.setMana(playerOne.getMana() - currentCard.getMana());
-                            playerOne.getHand().remove((int)handId);
+                            players[0].setMana(players[0].getMana() - currentCard.getMana());
+                            players[0].getHand().remove((int)handId);
                             }
                     }
                 }
             }
         } else {
-            if(playerOne.getHand().size() != 0) {
+            if(players[0].getHand().size() != 0) {
 
-            currentCard = playerTwo.getHand().get((int)handId);
+            currentCard = players[1].getHand().get((int)handId);
             //System.out.println(currentCard);
             if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
@@ -396,8 +393,8 @@ public void printTable()
                     ex.printStackTrace();
                 }
             } else {
-                if(currentCard.getMana() > playerTwo.getMana()) {
-                    //System.out.println("aaaa" + playerTwo.getMana());
+                if(currentCard.getMana() > players[1].getMana()) {
+                    //System.out.println("aaaa" + players[1].getMana());
                     //System.out.println(currentCard);
                     try {
                         ObjectMapper mapper = new ObjectMapper();
@@ -429,8 +426,8 @@ public void printTable()
                             }
                         } else {
                             (table.get(1)).add(currentCard);
-                            playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
-                            playerTwo.getHand().remove((int)handId);
+                            players[1].setMana(players[1].getMana() - currentCard.getMana());
+                            players[1].getHand().remove((int)handId);
                         }
                     } else
                     if(Objects.equals(currentCard.getCardPositioning(), "back")) {
@@ -450,8 +447,8 @@ public void printTable()
                             }
                         }   else {
                             table.get(0).add(currentCard);
-                            playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
-                            playerTwo.getHand().remove((int)handId);
+                            players[1].setMana(players[1].getMana() - currentCard.getMana());
+                            players[1].getHand().remove((int)handId);
                         }
                     }
                 }
@@ -471,18 +468,18 @@ public void printTable()
         nrPlayersEnded++;
         if(nrPlayersEnded == 2) {
             nrPlayersEnded = 0;
-            playerOne.setMana(playerOne.getMana() + manaToGive);
-            playerTwo.setMana(playerTwo.getMana() + manaToGive);
+            players[0].setMana(players[0].getMana() + manaToGive);
+            players[1].setMana(players[1].getMana() + manaToGive);
             manaToGive++;
             manaToGive = max(10, manaToGive);
-            if(playerOne.getDeck().size() != 0) {
-            playerOne.getHand().add(playerOne.getDeck().get(0));
-            playerOne.getDeck().remove(0);}
-            if(playerTwo.getDeck().size() != 0){
-            playerTwo.getHand().add(playerTwo.getDeck().get(0));
-            playerTwo.getDeck().remove(0);}
-            System.out.println(playerOne.getMana());
-            System.out.println(playerTwo.getMana());
+            if(players[0].getDeck().size() != 0) {
+            players[0].getHand().add(players[0].getDeck().get(0));
+            players[0].getDeck().remove(0);}
+            if(players[1].getDeck().size() != 0){
+            players[1].getHand().add(players[1].getDeck().get(0));
+            players[1].getDeck().remove(0);}
+            System.out.println(players[0].getMana());
+            System.out.println(players[1].getMana());
         }
 
     }
@@ -495,13 +492,13 @@ public void printTable()
             outObject.put("command", "getPlayerDeck");
             outObject.put("playerIdx", playerId);
             JsonNode node = null;
-            //System.out.println(playerTwo.getDeck());
+            //System.out.println(players[1].getDeck());
 
 
             if(playerId == 1) {
-                node = mapper.valueToTree(playerOne.getDeck()); }
+                node = mapper.valueToTree(players[0].getDeck()); }
             else if(playerId == 2) {
-                node = mapper.valueToTree(playerTwo.getDeck());
+                node = mapper.valueToTree(players[1].getDeck());
             }
 
             outObject.put("output", node);
@@ -523,9 +520,9 @@ public void printTable()
             outObject.put("playerIdx", playerId);
             JsonNode node = null;
             if(playerId == 1) {
-                node = mapper.valueToTree(playerOne.getHeroCard()); }
+                node = mapper.valueToTree(players[0].getHeroCard()); }
             else if(playerId == 2) {
-                node = mapper.valueToTree(playerTwo.getHeroCard());
+                node = mapper.valueToTree(players[1].getHeroCard());
             }
             outObject.put("output", node);
             output.add(outObject);
