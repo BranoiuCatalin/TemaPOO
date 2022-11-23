@@ -13,7 +13,7 @@ public class Player {
     private HeroCard heroCard;
     private Integer backrowIndex;
     private Integer frontrowindex;
-    private Integer mana = 0;
+    private int mana = 1;
 
     public void getNextCard() {
         hand.add(deck.get(0));
@@ -37,7 +37,7 @@ public class Player {
         this.heroCard = heroCard;
     }
 
-    public Integer getMana() {
+    public int getMana() {
         return mana;
     }
 

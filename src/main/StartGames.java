@@ -27,12 +27,16 @@ import main.minionCards.*;
 import java.io.IOException;
 import java.util.*;
 
+import static java.lang.Math.max;
+
 public class StartGames {
 
     private static Player playerOne;
     private static Player playerTwo;
+    private static Player[] players = new Player[2];
     private static Integer currentPlayer;
     private static Integer nrPlayersEnded = 0;
+    private static Integer manaToGive = 2;
     private static ArrayList<ArrayList<Card>> table;
 
     public void startGame (Input input, ArrayNode output) {
@@ -41,7 +45,7 @@ public class StartGames {
         table = new ArrayList<ArrayList<Card>>();
         ArrayList<Card> emptyRow = new ArrayList<Card>();
         for(int i =0; i<4; i++) {
-            table.add(emptyRow);
+            table.add(new ArrayList<Card>());
         }
         for(GameInput game : input.getGames()) {
             playerOne.setDeck(new ArrayList<>());
@@ -176,6 +180,14 @@ public class StartGames {
             playerTwo.getHand().add(playerTwo.getDeck().get(0));
             playerTwo.getDeck().remove(0);
 
+//            getPlayerDeck(1, output);
+//            getPlayerDeck(2, output);
+//
+//            getCardsInHand(1, output);
+//            getCardsInHand(2, output);
+
+
+
             doActions(game.getActions(), output);
         }
 
@@ -202,7 +214,56 @@ public class StartGames {
                 case "getCardsOnTable":
                     getCardsOnTable(output);
                     break;
+                case "getCardsInHand":
+                    getCardsInHand(action.getPlayerIdx(), output);
+                    break;
+                case "getPlayerMana":
+                    getPlayerMana(action.getPlayerIdx(), output);
+                    break;
             }
+        }
+    }
+    public void getPlayerMana(int playerId, ArrayNode output) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode array = mapper.createArrayNode();
+
+            ObjectNode outObject = mapper.createObjectNode();
+            outObject.put("command", "getPlayerMana");
+            outObject.put("playerIdx", playerId);
+            if(playerId == 1) {
+                outObject.put("output", playerOne.getMana());
+            } else {
+                outObject.put("output", playerTwo.getMana());
+            }
+            output.add(outObject);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void getCardsInHand(Integer playerId, ArrayNode output) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode array = mapper.createArrayNode();
+
+            ObjectNode outObject = mapper.createObjectNode();
+            outObject.put("command", "getCardsInHand");
+            outObject.put("playerIdx", playerId);
+            JsonNode node = null;
+            //System.out.println(playerTwo.getDeck());
+
+
+            if(playerId == 1) {
+                node = mapper.valueToTree(playerOne.getHand()); }
+            else if(playerId == 2) {
+                node = mapper.valueToTree(playerTwo.getHand());
+            }
+
+            outObject.put("output", node);
+            output.add(outObject);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
     public void getCardsOnTable(ArrayNode output) {
@@ -227,11 +288,25 @@ public class StartGames {
     }
 
 }
+
+public void printTable()
+{
+    System.out.println(table.get(0));
+    System.out.println(table.get(1));
+    System.out.println(table.get(2));
+    System.out.println(table.get(3));
+}
     public void placeCard(Integer handId, ArrayNode output) {
+        printTable();
         Card currentCard = null;
         //Integer
+
+
+
         if(currentPlayer == 1) {
-            currentCard = playerOne.getHand().get(handId);
+            if(playerOne.getHand().size() != 0) {
+
+            currentCard = playerOne.getHand().get((int)handId);
             if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
                     ObjectMapper mapper = new ObjectMapper();
@@ -277,7 +352,7 @@ public class StartGames {
                         } else {
                             table.get(2).add(currentCard);
                             playerOne.setMana(playerOne.getMana() - currentCard.getMana());
-                            playerOne.getHand().remove(handId);
+                            playerOne.getHand().remove((int)handId);
                         }
                     } else
                     if(Objects.equals(currentCard.getCardPositioning(), "back")) {
@@ -297,13 +372,16 @@ public class StartGames {
                         }   else {
                             table.get(3).add(currentCard);
                             playerOne.setMana(playerOne.getMana() - currentCard.getMana());
-                            playerOne.getHand().remove(handId);
+                            playerOne.getHand().remove((int)handId);
                             }
                     }
                 }
             }
         } else {
-            currentCard = playerTwo.getHand().get(handId);
+            if(playerOne.getHand().size() != 0) {
+
+            currentCard = playerTwo.getHand().get((int)handId);
+            //System.out.println(currentCard);
             if(Objects.equals(currentCard.getCardPositioning(), "environment")) {
                 try {
                     ObjectMapper mapper = new ObjectMapper();
@@ -319,6 +397,8 @@ public class StartGames {
                 }
             } else {
                 if(currentCard.getMana() > playerTwo.getMana()) {
+                    //System.out.println("aaaa" + playerTwo.getMana());
+                    //System.out.println(currentCard);
                     try {
                         ObjectMapper mapper = new ObjectMapper();
 
@@ -333,7 +413,8 @@ public class StartGames {
                     }
                 } else {
                     if(Objects.equals(currentCard.getCardPositioning(), "front")) {
-                        if(table.get(2).size() == 5) {
+                        //System.out.println(table.get(1));
+                        if(table.get(1).size() == 5) {
                             try {
                                 ObjectMapper mapper = new ObjectMapper();
 
@@ -347,13 +428,14 @@ public class StartGames {
                                 ex.printStackTrace();
                             }
                         } else {
-                            table.get(2).add(currentCard);
+                            (table.get(1)).add(currentCard);
                             playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
-                            playerTwo.getHand().remove(handId);
+                            playerTwo.getHand().remove((int)handId);
                         }
                     } else
                     if(Objects.equals(currentCard.getCardPositioning(), "back")) {
-                        if(table.get(3).size() == 5) {
+                        //System.out.println(table.get(0));
+                        if(table.get(0).size() == 5) {
                             try {
                                 ObjectMapper mapper = new ObjectMapper();
 
@@ -367,16 +449,17 @@ public class StartGames {
                                 ex.printStackTrace();
                             }
                         }   else {
-                            table.get(3).add(currentCard);
+                            table.get(0).add(currentCard);
                             playerTwo.setMana(playerTwo.getMana() - currentCard.getMana());
-                            playerTwo.getHand().remove(handId);
+                            playerTwo.getHand().remove((int)handId);
                         }
                     }
                 }
             }
         }
-
-
+        printTable();
+        }
+        }
     }
     public void endPlayerTurn(ArrayNode output) {
         if(currentPlayer == 1) {
@@ -388,7 +471,20 @@ public class StartGames {
         nrPlayersEnded++;
         if(nrPlayersEnded == 2) {
             nrPlayersEnded = 0;
+            playerOne.setMana(playerOne.getMana() + manaToGive);
+            playerTwo.setMana(playerTwo.getMana() + manaToGive);
+            manaToGive++;
+            manaToGive = max(10, manaToGive);
+            if(playerOne.getDeck().size() != 0) {
+            playerOne.getHand().add(playerOne.getDeck().get(0));
+            playerOne.getDeck().remove(0);}
+            if(playerTwo.getDeck().size() != 0){
+            playerTwo.getHand().add(playerTwo.getDeck().get(0));
+            playerTwo.getDeck().remove(0);}
+            System.out.println(playerOne.getMana());
+            System.out.println(playerTwo.getMana());
         }
+
     }
     public void getPlayerDeck(Integer playerId, ArrayNode output) {
         try {

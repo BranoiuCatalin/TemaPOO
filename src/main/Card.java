@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 
 public class Card {
-    private Integer mana;
+    private int mana;
     private String description;
     private ArrayList<String> colors;
     private String name;
@@ -24,7 +24,7 @@ public class Card {
         this.cardPositioning = positioning;
     }
 
-    public Integer getMana() {
+    public int getMana() {
         return mana;
     }
 
