@@ -34,16 +34,21 @@ public class StartGames {
     private Integer nrPlayersEnded = 0;
     private Integer manaToGive = 2;
     private ArrayList<ArrayList<MinionCard>> table;
+    private int[] gamesWon = new int[2];
 
     public void startGame(Input input, ArrayNode output) {
-        players[0] = new Player();
-        players[1] = new Player();
-        table = new ArrayList<ArrayList<MinionCard>>();
-        ArrayList<Card> emptyRow = new ArrayList<Card>();
-        for (int i = 0; i < 4; i++) {
-            table.add(new ArrayList<MinionCard>());
-        }
+        gamesWon[0] = 0;
+        gamesWon[1] = 0;
         for (GameInput game : input.getGames()) {
+            manaToGive = 2;
+            nrPlayersEnded = 0;
+            players[0] = new Player();
+            players[1] = new Player();
+            table = new ArrayList<ArrayList<MinionCard>>();
+            ArrayList<Card> emptyRow = new ArrayList<Card>();
+            for (int i = 0; i < 4; i++) {
+                table.add(new ArrayList<MinionCard>());
+            }
             players[0].setDeck(new ArrayList<>());
             for (CardInput cardIn : input.getPlayerOneDecks().getDecks().get(game.getStartGame().getPlayerOneDeckIdx())) {
                 switch (cardIn.getName()) {
@@ -239,10 +244,20 @@ public class StartGames {
                 case "useHeroAbility":
                     useHeroAbility(action.getAffectedRow(), output);
                     break;
+                case "getPlayerOneWins":
+                    getPlayerWins(1,output);
+                    break;
+                case "getPlayerTwoWins":
+                    getPlayerWins(2,output);
+                    break;
+                case "getTotalGamesPlayed":
+                    getPlayerWins(3,output);
+                    break;
 
             }
             if(gameEnded && action.getCommand() == "endPlayerTurn") {
                 break;
+
             }
             for(ArrayList<MinionCard> row : table) {
                 for(int i = row.size()-1; i>=0; i--) {
@@ -254,6 +269,31 @@ public class StartGames {
             if(table.get(3).size() > 0)
             System.out.println("aa" + table.get(3).get(0).getAttacked());
         }
+    }
+
+    public void getPlayerWins(int playerId, ArrayNode output) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode outObject = mapper.createObjectNode();
+                if(playerId == 3) {
+                    outObject.put("command", "getTotalGamesPlayed");
+                } else if(playerId == 1) {
+                    outObject.put("command", "getPlayerOneWins");
+                } else {
+                    outObject.put("command", "getPlayerTwoWins");
+                }
+
+                if(playerId == 3) {
+                    outObject.put("output", Arrays.stream(gamesWon).sum());
+                } else {
+                    outObject.put("output", gamesWon[playerId-1]);
+                }
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
     }
     public void useHeroAbility(int affectedRow, ArrayNode output) {
         if(players[currentPlayer-1].getMana() < players[currentPlayer-1].getHeroCard().getMana()) {
@@ -395,7 +435,8 @@ public class StartGames {
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectNode outObject = mapper.createObjectNode();
                 if(currentPlayer == 1) {
-                outObject.put("gameEnded", "Player one killed the enemy hero.");}
+                outObject.put("gameEnded", "Player one killed the enemy hero.");
+                }
                 else {
                     outObject.put("gameEnded", "Player two killed the enemy hero.");
                 }
@@ -404,6 +445,7 @@ public class StartGames {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            gamesWon[currentPlayer-1]++;
             return true;
         }
         return false;
