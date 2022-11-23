@@ -24,6 +24,7 @@ import main.minionCards.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 
@@ -228,6 +229,7 @@ public class StartGames {
                 case "cardUsesAttack":
                     cardUsesAttack(action.getCardAttacker(), action.getCardAttacked(), output);
                     break;
+
             }
 
             for(ArrayList<MinionCard> row : table) {
@@ -240,7 +242,95 @@ public class StartGames {
         }
     }
     public void cardUsesAttack(Coordinates attacker, Coordinates attacked, ArrayNode output) {
+        if(table.get(attacker.getX()).size() <= attacker.getY() || table.get(attacked.getX()).size() <= attacked.getY()) {
+            return;
+        }
+        MinionCard atkrCard = table.get(attacker.getX()).get(attacker.getY());
+        MinionCard atkdCard = table.get(attacked.getX()).get(attacked.getY());
+        if((currentPlayer == 1 && attacked.getX()>1) || (currentPlayer == 2 && attacked.getX()<2)) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
 
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAttack");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacked card does not belong to the enemy.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (atkrCard.getAttacked()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAttack");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacker card has already attacked this turn.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (atkrCard.getFrozen()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAttack");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacker card is frozen.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (!atkdCard.getTank() && Stream.of(table.get(attacked.getX()), table.get(attacked.getX() ^ 1)).flatMap(List::stream).anyMatch(card -> card.getTank())){
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "cardUsesAttack");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                node = mapper.valueToTree(attacked);
+                outObject.put("cardAttacked", node);
+                outObject.put("error", "Attacked card is not of type 'Tank'.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            atkdCard.setHealth(atkdCard.getHealth() - atkrCard.getAttackDamage());
+            atkrCard.setAttacked(true);
+        }
     }
     public void getFrozenCardsOnTable(ArrayNode output) {
         List<Card> frozCards = table.stream().flatMap(List::stream).filter(card -> card.getFrozen()).collect(Collectors.toList());
@@ -531,6 +621,7 @@ public class StartGames {
         for(int i=0; i<1; i++) {
             for(MinionCard card : table.get((4-2*currentPlayer) + i)) {
                 card.setFrozen(false);
+                card.setAttacked(false);
             }
         }
 
