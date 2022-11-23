@@ -188,6 +188,7 @@ public class StartGames {
     }
 
     public void doActions(ArrayList<ActionsInput> actions, ArrayNode output) {
+        Boolean gameEnded = false;
         for (ActionsInput action : actions) {
             switch (action.getCommand()) {
                 case "getPlayerDeck":
@@ -233,11 +234,16 @@ public class StartGames {
                     cardUsesAbility(action.getCardAttacker(), action.getCardAttacked(), output);
                     break;
                 case "useAttackHero":
-                    //useAttackHero(action.getCardAttacker(), output);
+                    gameEnded = useAttackHero(action.getCardAttacker(), output);
+                    break;
+                case "useHeroAbility":
+                    useHeroAbility(action.getAffectedRow(), output);
                     break;
 
             }
-
+            if(gameEnded && action.getCommand() == "endPlayerTurn") {
+                break;
+            }
             for(ArrayList<MinionCard> row : table) {
                 for(int i = row.size()-1; i>=0; i--) {
                     if(row.get(i).getHealth() <= 0) {
@@ -249,8 +255,159 @@ public class StartGames {
             System.out.println("aa" + table.get(3).get(0).getAttacked());
         }
     }
+    public void useHeroAbility(int affectedRow, ArrayNode output) {
+        if(players[currentPlayer-1].getMana() < players[currentPlayer-1].getHeroCard().getMana()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "useHeroAbility");
+                outObject.put("affectedRow", affectedRow);
+                outObject.put("error", "Not enough mana to use hero's ability.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if(players[currentPlayer-1].getHeroCard().getAttacked()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "useHeroAbility");
+                outObject.put("affectedRow", affectedRow);
+                outObject.put("error", "Hero has already attacked this turn.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if(players[currentPlayer-1].getHeroCard() instanceof LordRoyce || players[currentPlayer-1].getHeroCard() instanceof EmpressThorina) {
+            if((currentPlayer == 1 && affectedRow>1) || (currentPlayer == 2 && affectedRow<2)){
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    ObjectNode outObject = mapper.createObjectNode();
+                    outObject.put("command", "useHeroAbility");
+                    outObject.put("affectedRow", affectedRow);
+                    outObject.put("error", "Selected row does not belong to the enemy.");
+                    output.add(outObject);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else {
+                players[currentPlayer-1].getHeroCard().specialAbility(table.get(affectedRow));
+                players[currentPlayer-1].getHeroCard().setAttacked(true);
+                players[currentPlayer-1].setMana(players[currentPlayer-1].getMana() - players[currentPlayer-1].getHeroCard().getMana());
+            }
+        }
+        else  {
+            if((currentPlayer == 1 && affectedRow<2) || (currentPlayer == 2 && affectedRow>1)){
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    ObjectNode outObject = mapper.createObjectNode();
+                    outObject.put("command", "useHeroAbility");
+                    outObject.put("affectedRow", affectedRow);
+                    outObject.put("error", "Selected row does not belong to the current player.");
+                    output.add(outObject);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else {
+                players[currentPlayer-1].getHeroCard().specialAbility(table.get(affectedRow));
+                players[currentPlayer-1].getHeroCard().setAttacked(true);
+                players[currentPlayer-1].setMana(players[currentPlayer-1].getMana() - players[currentPlayer-1].getHeroCard().getMana());
+            }
+        }
+    }
+    public Boolean useAttackHero(Coordinates attacker, ArrayNode output) {
+        if(table.get(attacker.getX()).size() <= attacker.getY()) {
+            return false;
+        }
+        MinionCard atkrCard = table.get(attacker.getX()).get(attacker.getY());
+
+        if (atkrCard.getFrozen()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
 
 
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "useAttackHero");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                outObject.put("error", "Attacker card is frozen.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (atkrCard.getAttacked()) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "useAttackHero");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                outObject.put("error", "Attacker card has already attacked this turn.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (Stream.of(table.get((3-attacker.getX())), table.get((3-attacker.getX()) ^ 1)).flatMap(List::stream).anyMatch(card -> card.getTank())){
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                ObjectNode outObject = mapper.createObjectNode();
+                outObject.put("command", "useAttackHero");
+                JsonNode node = null;
+                //System.out.println(players[1].getDeck());
+
+                node = mapper.valueToTree(attacker);
+                outObject.put("cardAttacker", node);
+                outObject.put("error", "Attacked card is not of type 'Tank'.");
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else {
+            players[2-currentPlayer].getHeroCard().setHealth(players[2-currentPlayer].getHeroCard().getHealth() - atkrCard.getAttackDamage());
+            atkrCard.setAttacked(true);
+        }
+        if(players[2-currentPlayer].getHeroCard().getHealth()<=0) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode outObject = mapper.createObjectNode();
+                if(currentPlayer == 1) {
+                outObject.put("gameEnded", "Player one killed the enemy hero.");}
+                else {
+                    outObject.put("gameEnded", "Player two killed the enemy hero.");
+                }
+                output.add(outObject);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return true;
+        }
+        return false;
+    }
     public void cardUsesAbility(Coordinates attacker, Coordinates attacked, ArrayNode output) {
         if(table.get(attacker.getX()).size() <= attacker.getY() || table.get(attacked.getX()).size() <= attacked.getY()) {
             return;
@@ -757,6 +914,7 @@ public class StartGames {
                 card.setAttacked(false);
             }
         }
+        players[currentPlayer-1].getHeroCard().setAttacked(false);
         System.out.println("reset for player" + currentPlayer);
 
         if (currentPlayer == 1) {

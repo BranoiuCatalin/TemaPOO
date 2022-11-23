@@ -10,8 +10,11 @@ public class LordRoyce extends HeroCard{
     }
 
     public void specialAbility(ArrayList<MinionCard> attackedRow) {
+        if(attackedRow.size()==0) {
+            return;
+        }
         int maxAttack = 0;
-        int maxAttackIndex = -1;
+        int maxAttackIndex = 0;
         for(int i=0; i<attackedRow.size(); i++) {
             if(attackedRow.get(i).getAttackDamage() > maxAttack) {
                 maxAttackIndex = i;
